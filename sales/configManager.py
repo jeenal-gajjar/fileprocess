@@ -1,6 +1,7 @@
 import os
 from Common.ConfigManagerBase import  ConfigManagerBase
 from Common.db.config_manager import DbConfigManager
+from Common.Utils import create_directory, delete_directory_tree
 from time import gmtime, strftime
 
 
@@ -43,16 +44,28 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
     def get_local_directory(self):
         if not self._local_directory:
             self._local_directory = self.config.get('main', 'local_directory')
+            if self._local_directory is '':
+                raise ValueError(f"Local Directory Path does not mentioned in conf file")
+            if not os.path.exists(self.config.get('main', 'local_directory')):
+                create_directory(self.config.get('main', 'local_directory'))
         return self._local_directory
 
     def get_working_directory(self):
         if not self._working_directory:
             self._working_directory = self.config.get('main', 'working_directory')
+            if self._working_directory == '':
+                raise ValueError(f"Working Directory Path does not mentioned in conf file")
+            if not os.path.exists(self.config.get('main', 'working_directory')):
+                create_directory(self.config.get('main', 'working_directory'))
         return self._working_directory
 
     def get_destination_directory(self):
         if not self._destination_directory:
             self._destination_directory = self.config.get('main', 'destination_directory')
+            if self._destination_directory is '':
+                raise ValueError(f"Destination Directory Path does not mentioned in conf file")
+            if not os.path.exists(self.config.get('main', 'destination_directory')):
+                create_directory(self.config.get('main', 'destination_directory'))
         return self._destination_directory
 
     def get_backup_directory(self):
@@ -61,7 +74,7 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
         return self._backup_directory
 
     def get_destination_file_path(self,file):
-        self.destination_directory = self.config.get('main', 'destination_directory')
+        self.destination_directory = self.get_destination_directory()
         return os.path.join(self.destination_directory, file)
 
     def get_profile_builder_conf(self):
