@@ -17,6 +17,7 @@ from Common.logging.loggingManager import LogManager, get_applogger
 from Common.working_dir_manager import WorkingDirectoryManager
 from sales.dataProviderManager import get_data_provider_manager
 from Common.Utils import FileFetchException
+from sales.emailManager import EmailManager
 _log = get_applogger()
 
 FileInfo = collections.namedtuple('FileInfo', 'name path size')
@@ -91,6 +92,14 @@ def get_remote_data_file(file_date: str):
             raise FileFetchException(
                 configManager.messageformat('Profile Data File fetch for TODAY has failed', 'no file found',True))
 
+def send_email():
+    try:
+        email = EmailManager(configManager)
+        print(email)
+        email.send_mail()
+        _log.info(f"Email send Successfully")
+    except Exception as e:
+        _log.error(e)
 
 
 @click.command()
@@ -99,6 +108,7 @@ def get_remote_data_file(file_date: str):
 def transform_file(file_date: str):
     try:
         get_remote_data_file(file_date)
+        send_email()
     except FileFetchException as e:
         raise
 
