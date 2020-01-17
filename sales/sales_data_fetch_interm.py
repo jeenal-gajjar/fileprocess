@@ -3,7 +3,6 @@ from pathlib import Path
 import sys, os
 from shutil import move, copyfile
 import collections
-# os.chdir(sys.path[0])
 parent_path = str(Path().resolve().parent)
 if parent_path not in sys.path:
     sys.path.insert(1, str(Path().resolve().parent))
@@ -44,9 +43,9 @@ def start_transformation(selected_file_name, working_file_path, info):
     transformed_data_file = FileInfo(name=selected_file_name, path=working_file_path, size=info.st_size)
     _log.info(f"Downloaded Data Provider File {transformed_data_file}")
     destination_file_path = configManager.get_destination_file_path(transformed_data_file.name)
-    _log.debug(f"Copying data file:{transformed_data_file.path} to master location: {destination_file_path}")
+    _log.debug(f"Copying data file:{transformed_data_file.path} to destination location: {destination_file_path}")
     copyfile(transformed_data_file.path, destination_file_path)
-    _log.info(f'Profile Data File for TODAY has  been fetched and stored in {destination_file_path}')
+    _log.info(f'Sales Data Files  has been fetched and stored in {destination_file_path}')
     return True
 
 def get_remote_data_file(file_date: str):
