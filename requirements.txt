@@ -2,3 +2,5 @@ peewee==3.9.6
 mysqlclient==1.4.2
 pysftp==0.2.9
 Click==7.0
+ray==0.8.0
+pandas==0.25.3
