@@ -1,7 +1,4 @@
-import os
-import json
 from typing import Dict
-
 from Common.Utils import str_to_list
 from Common import SettingsBase
 
@@ -42,7 +39,6 @@ class Settings(SettingsBase):
                 raise ValueError(self.ERROR_INVALID_CONFIG_VALUE.format(self.CONFIG_SRC_FIELDS_DELIMITER))
             self._source_data_delimiter = value.title()
         return self._source_data_delimiter
-
 
     @property
     def fields(self):

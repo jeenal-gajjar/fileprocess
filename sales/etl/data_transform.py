@@ -26,12 +26,8 @@ class DataTransform:
         return set(self._data_provider_options.source_data_fields) == set([s.lower() for s in header.keys()])
 
     def transform_file(self, in_file_path, out_file_path):
-        self._log.info(f"start Transforming Profile Data file {in_file_path} to {out_file_path}")
-        import time
-
+        self._log.info(f"start Transforming Sales Data file {in_file_path} to {out_file_path}")
         df = pd.read_excel(in_file_path)
-        start_time = time.time()
-        print("--- %s seconds ---" % (time.time() - start_time))
         df.columns = map(str.title, df.columns)
         index = self._data_provider_options.fields.index(self._data_provider_options.product_name_field) + 1
         df.insert(loc=index, column=self._data_provider_options.product_name_field, value='')
@@ -42,8 +38,7 @@ class DataTransform:
             except:
                 df.loc[index, self._data_provider_options.product_name_field] = ''
         df.to_excel(out_file_path)
-        print("--- %s seconds ---" % (time.time() - start_time))
-        self._log.info(f"Completed Transforming Profile Data file {in_file_path} to {out_file_path}")
+        self._log.info(f"Completed Transforming Sales Data file {in_file_path} to {out_file_path}")
 
 
 

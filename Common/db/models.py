@@ -1,8 +1,12 @@
+# Jeenal suthar
 
 import peewee as pw
 from Common.db import base
 
 class Product(base.BaseModel):
+    """
+        Model for Product.
+     """
     name = pw.CharField(max_length=250)
     category = pw.CharField(max_length=250)
     description = pw.CharField(max_length=250)

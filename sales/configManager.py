@@ -1,7 +1,7 @@
 import os
 from Common.ConfigManagerBase import  ConfigManagerBase
 from Common.db.config_manager import DbConfigManager
-from Common.Utils import create_directory, delete_directory_tree
+from Common.Utils import assure_path_exists
 from time import gmtime, strftime
 
 
@@ -46,8 +46,7 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
             self._local_directory = self.config.get('main', 'local_directory')
             if self._local_directory is '':
                 raise ValueError(f"Local Directory Path does not mentioned in conf file")
-            if not os.path.exists(self.config.get('main', 'local_directory')):
-                create_directory(self.config.get('main', 'local_directory'))
+            assure_path_exists(self.config.get('main', 'local_directory'))
         return self._local_directory
 
     def get_working_directory(self):
@@ -55,8 +54,7 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
             self._working_directory = self.config.get('main', 'working_directory')
             if self._working_directory == '':
                 raise ValueError(f"Working Directory Path does not mentioned in conf file")
-            if not os.path.exists(self.config.get('main', 'working_directory')):
-                create_directory(self.config.get('main', 'working_directory'))
+            assure_path_exists(self.config.get('main', 'working_directory'))
         return self._working_directory
 
     def get_destination_directory(self):
@@ -64,8 +62,7 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
             self._destination_directory = self.config.get('main', 'destination_directory')
             if self._destination_directory is '':
                 raise ValueError(f"Destination Directory Path does not mentioned in conf file")
-            if not os.path.exists(self.config.get('main', 'destination_directory')):
-                create_directory(self.config.get('main', 'destination_directory'))
+            assure_path_exists(self.config.get('main', 'destination_directory'))
         return self._destination_directory
 
     def get_backup_directory(self):

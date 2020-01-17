@@ -1,3 +1,4 @@
+# Jeenal suthar
 
 from contextlib import contextmanager, ContextDecorator
 from functools import wraps
@@ -17,7 +18,8 @@ class UTCFormatter(logging.Formatter):
 
 
 def _create_logger(log_file, logger_name, filemaxbytes, backupcount, loglevel,host_ip
-                   ,enable_syslog_handler,syslog_address,syslog_handler_level,enable_console_handler,console_handler_level) ->logging.Logger:
+                   ,enable_syslog_handler,syslog_address,syslog_handler_level,enable_console_handler,
+                   console_handler_level) ->logging.Logger:
 
 
     """
@@ -61,35 +63,35 @@ def _create_logger(log_file, logger_name, filemaxbytes, backupcount, loglevel,ho
 
 
 _logger = _create_logger(configManager.get_log_file(), configManager.get_log_name(),
-                         configManager.get_log_file_maxbytpe(), configManager.get_log_file_numoffile()
-                         , configManager.get_log_level(),configManager.get_host_ip()
-                         ,configManager.get_enable_syslog_handler(),configManager.get_syslog_address()
-                         ,configManager.get_syslog_handler_level(),configManager.get_enable_console_handler()
-                         ,configManager.get_console_handler_level())
+                         configManager.get_log_file_maxbytpe(), configManager.get_log_file_numoffile(),
+                         configManager.get_log_level(),configManager.get_host_ip(),
+                         configManager.get_enable_syslog_handler(),configManager.get_syslog_address(),
+                         configManager.get_syslog_handler_level(),configManager.get_enable_console_handler(),
+                         configManager.get_console_handler_level())
 
 
 def get_applogger() -> logging.Logger:
     """
-    Return a precofigured logger object for the application
+    Return a pre-configured logger object for the application
     :return:
     """
     return _logger
 
 def get_applogger_update() -> logging.Logger:
     """
-    Return a precofigured logger object for the application
+    Return a pre-configured logger object for the application
     :return:
     """
     print ('----- logger update')
     _logger_update = _create_logger(configManager.get_LOG_FILE(), configManager.get_LOG_NAME(),
-                                            configManager.get_LOG_FILE_MAXBYTPE(),
-                                            configManager.get_LOG_FILE_NUMOFFILE()
-                                            , configManager.get_LOG_LEVEL(), configManager.get_HOST_IP()
-                                            , configManager.get_enable_syslog_handler(),
-                                            configManager.get_syslog_address()
-                                            , configManager.get_syslog_handler_level(),
-                                            configManager.get_enable_console_handler()
-                                            , configManager.get_console_handler_level())
+                                    configManager.get_LOG_FILE_MAXBYTPE(),
+                                    configManager.get_LOG_FILE_NUMOFFILE(),
+                                    configManager.get_LOG_LEVEL(), configManager.get_HOST_IP(),
+                                    configManager.get_enable_syslog_handler(),
+                                    configManager.get_syslog_address(),
+                                    configManager.get_syslog_handler_level(),
+                                    configManager.get_enable_console_handler(),
+                                    configManager.get_console_handler_level())
 
     return _logger_update
 
