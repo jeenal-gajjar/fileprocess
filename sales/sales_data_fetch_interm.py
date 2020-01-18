@@ -36,9 +36,8 @@ def start_transformation(selected_file_name, working_file_path, info):
     from Common.logging.loggingManager import get_applogger
     _log = get_applogger()
     FileInfo = collections.namedtuple('FileInfo', 'name path size')
-    start_time = time.time()
 
-    _log.info(f"start file Processing Start : {selected_file_name} at {start_time} seconds")
+    _log.info(f"start file Processing Start : {selected_file_name} at {time.ctime()}")
     data_provider_manager = get_data_provider_manager(configManager)
     data_transformer = data_provider_manager.create_data_transformer(_log, configManager)
     move(working_file_path, working_file_path + ".old")
@@ -49,7 +48,7 @@ def start_transformation(selected_file_name, working_file_path, info):
     _log.debug(f"Copying Transformed data file:{transformed_data_file.path} to Destination Location: {destination_file_path}")
     copyfile(transformed_data_file.path, destination_file_path)
     _log.info(f'Sales Data Files has been fetched and stored in {destination_file_path}')
-    _log.info(f"file Processing End : {selected_file_name} at{time.time() - start_time} seconds")
+    _log.info(f"file Processing End : {selected_file_name} at{time.ctime()}")
     return True
 
 def get_remote_data_file(file_date: str):
@@ -95,7 +94,6 @@ def get_remote_data_file(file_date: str):
 def send_email():
     try:
         email = EmailManager(configManager)
-        print(email)
         email.send_mail()
         _log.info(f"Email send Successfully")
     except Exception as e:
