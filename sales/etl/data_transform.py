@@ -65,11 +65,12 @@ class DataTransform:
         df.insert(loc=index, column=self._data_provider_options.product_name_field, value='')
         chunks = list()
         skip_record = math.ceil(len(df.index) / 1000)
-        start_row = 1
-        for i in range(0,skip_record):
+        start_row = 0
+        while True:
             stop_row = start_row + skip_record
+            print(start_row, stop_row)
             df_chunk = df.loc[start_row:stop_row]
-            start_row = stop_row
+            start_row = stop_row + 1
             if not df_chunk.shape[0]:
                 break
             else:
