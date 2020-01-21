@@ -66,7 +66,7 @@ def start_transformation(selected_file_name, working_file_path, info):
         return True
 
     except Exception as e:
-        _log.error("[ sales_data_fetch_intern -> get_remote_data_file ] " + e)
+        _log.error("[ sales_data_fetch_intern -> get_remote_data_file ] " + str(e))
 
 
 def get_remote_data_file(file_date: str):
@@ -118,7 +118,7 @@ def get_remote_data_file(file_date: str):
                     configManager.messageformat('Profile Data File fetch for TODAY has failed', 'no file found',True))
 
     except Exception as e:
-        _log.error("[ sales_data_fetch_intern -> get_remote_data_file ] " + e)
+        _log.error("[ sales_data_fetch_intern -> get_remote_data_file ] " + str(e))
 
 
 def send_email():
@@ -131,7 +131,7 @@ def send_email():
         email.send_mail()
         _log.info(f"[ sales_data_fetch_intern -> send_email ] Email send Successfully")
     except Exception as e:
-        _log.error("[ sales_data_fetch_intern -> send_email ] "+ e)
+        _log.error("[ sales_data_fetch_intern -> send_email ] "+ str(e))
 
 
 @click.command()
@@ -150,7 +150,7 @@ def transform_file(file_date: str):
         raise Exception(e)
 
     except Exception as e:
-        _log.error("[ sales_data_fetch_intern -> transform_file ] "+ e)
+        _log.error("[ sales_data_fetch_intern -> transform_file ] "+ str(e))
 
 
 if __name__ == '__main__':
@@ -160,4 +160,4 @@ if __name__ == '__main__':
             try:
                 transform_file()
             except Exception as e:
-                _log.error("[ sales_data_fetch_intern -> __main__ ] "+ e)
+                _log.error("[ sales_data_fetch_intern -> __main__ ] "+ str(e))

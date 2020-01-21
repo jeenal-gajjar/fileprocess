@@ -63,7 +63,7 @@ class EmailManager:
             server.sendmail(self.config.get_sender_email(), self.config.get_receiver_email(), message.as_string())
             server.quit()
         except Exception as e:
-            self._log.error("[ Email Manager -> send_maiil ] "+ e)
+            self._log.error("[ Email Manager -> send_mail ] "+ str(e))
 
 
 

@@ -38,7 +38,7 @@ def transform_row(df):
         return df
 
     except Exception as e:
-        _log.error("[ data_transform -> transform_file ] " + e)
+        _log.error("[ data_transform -> transform_file ] " + str(e))
 
 class DataTransform:
 
@@ -93,7 +93,7 @@ class DataTransform:
             self._log.info(f"[ data_transform -> transform_file ] Completed Transforming Sales Data file {in_file_path} to {out_file_path} on {time.ctime()}")
 
         except Exception as e:
-            self._log.error("[ data_transform -> transform_file ] " + e)
+            self._log.error("[ data_transform -> transform_file ] " + str(e))
 
 
 
