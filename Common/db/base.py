@@ -1,4 +1,8 @@
-# Jeenal suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      This Module Provide Peewee Base Model .
+
 
 from playhouse.signals import Model
 

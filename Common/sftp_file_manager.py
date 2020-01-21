@@ -1,4 +1,7 @@
-# Jeenal suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      This module get file form remote directory.
 
 from contextlib import ContextDecorator
 import pysftp

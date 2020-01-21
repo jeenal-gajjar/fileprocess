@@ -1,9 +1,9 @@
-# Jeenal suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      A Helper class that providers Reflection related utility functions that allows dynamic creation and calls of objects
 
 class ReflectionUtils:
-    """
-    A Helper class that providers Reflection related utility functions that allows dynamic creation and calls of objects
-    """
     @staticmethod
     def get_class(fq_class_name: str):
         """

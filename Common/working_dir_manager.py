@@ -1,4 +1,8 @@
-# Jeenal Suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      A Context Manager class that create a working/temporary directory for the process upon entry and remove the entire
+#                   directory along with all its contents upon exit.
 
 from contextlib import ContextDecorator
 import os

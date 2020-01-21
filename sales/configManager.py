@@ -1,3 +1,8 @@
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      This module provide config value defined in .conf file.
+
 import os
 from Common.ConfigManagerBase import  ConfigManagerBase
 from Common.db.config_manager import DbConfigManager

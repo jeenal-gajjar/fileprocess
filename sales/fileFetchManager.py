@@ -1,4 +1,8 @@
-# Jeenal Suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      This module get file form remote directory or from local directory.
+
 import os
 import shutil
 from Common.Utils import create_directory

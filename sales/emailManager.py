@@ -1,4 +1,8 @@
-# Jeenal Suthar
+# Created By:       Jeenal Suthar
+# Created Date:
+# Last Modified:    22/01/2020
+# Description:      This module send Email after File Processing.
+
 from sales.email_content import CONTENT
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -13,10 +17,12 @@ class EmailManager:
     EmailManager to send log file as attachment
     """
 
-    def __init__(self, config):
+    def __init__(self, config, log):
+        self._log = log
         self.config = config
         self.email_content = CONTENT
         self.filepath = self.config.get_log_file()
+
 
     def _get_attachment(self):
         file_name = self.filepath.split('/')[-1]
@@ -32,27 +38,32 @@ class EmailManager:
         )
         return part
 
+
     def send_mail(self):
-        """With this function we send out our html email"""
+        try:
+            """With this function we send out our html email"""
 
-        # Create message container - the correct MIME type is multipart/alternative here!
-        message = MIMEMultipart('alternative')
-        message['subject'] = self.config.get_email_subject()
-        message['To'] = self.config.get_receiver_email()
-        message['From'] = self.config.get_sender_email()
-        # Credentials (if needed) for sending the mail
-        password = self.config.get_password()
-        html_body = MIMEText(self.email_content, "plain")
-        message.attach(html_body)
-        message.attach(self._get_attachment())
+            # Create message container - the correct MIME type is multipart/alternative here!
+            message = MIMEMultipart('alternative')
+            message['subject'] = self.config.get_email_subject()
+            message['To'] = self.config.get_receiver_email()
+            message['From'] = self.config.get_sender_email()
 
-        server = smtplib.SMTP(self.config.get_smtp_server() + ":" + str(self.config.get_port()))
-        #server.set_debuglevel(1)
+            # Credentials (if needed) for sending the mail
+            password = self.config.get_password()
+            html_body = MIMEText(self.email_content, "plain")
+            message.attach(html_body)
+            message.attach(self._get_attachment())
 
-        server.starttls()
-        server.login(self.config.get_sender_email(), password)
-        server.sendmail(self.config.get_sender_email(), self.config.get_receiver_email(), message.as_string())
-        server.quit()
+            server = smtplib.SMTP(self.config.get_smtp_server() + ":" + str(self.config.get_port()))
+            #server.set_debuglevel(1)
+
+            server.starttls()
+            server.login(self.config.get_sender_email(), password)
+            server.sendmail(self.config.get_sender_email(), self.config.get_receiver_email(), message.as_string())
+            server.quit()
+        except Exception as e:
+            self._log.error("[ Email Manager -> send_maiil ] "+ e)
 
 
 

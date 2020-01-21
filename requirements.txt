@@ -6,3 +6,5 @@ ray==0.8.0
 pandas==0.25.3
 xlrd==1.2.0
 openpyxl==3.0.3
+setproctitle==1.1.10
+psutil==5.6.7
