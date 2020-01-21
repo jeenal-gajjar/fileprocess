@@ -36,7 +36,7 @@ def start_transformation(selected_file_name, working_file_path, info):
     from Common.logging.loggingManager import get_applogger
     _log = get_applogger()
     FileInfo = collections.namedtuple('FileInfo', 'name path size')
-
+    start_time = time.time()
     _log.info(f"start file Processing Start : {selected_file_name} at {time.ctime()}")
     data_provider_manager = get_data_provider_manager(configManager)
     data_transformer = data_provider_manager.create_data_transformer(_log, configManager)
@@ -48,7 +48,7 @@ def start_transformation(selected_file_name, working_file_path, info):
     _log.debug(f"Copying Transformed data file:{transformed_data_file.path} to Destination Location: {destination_file_path}")
     copyfile(transformed_data_file.path, destination_file_path)
     _log.info(f'Sales Data Files has been fetched and stored in {destination_file_path}')
-    _log.info(f"file Processing End : {selected_file_name} at{time.ctime()}")
+    _log.info(f"file {selected_file_name} Processing time : {time.time() - start_time} seconds")
     return True
 
 def get_remote_data_file(file_date: str):

@@ -46,15 +46,6 @@ class DataTransform:
         """
         return set(self._data_provider_options.source_data_fields) == set([s.lower() for s in header.keys()])
 
-    # def transform_row(self, df):
-    #     from Common.db.models import Product
-    #     for index, row in df.iterrows():
-    #         try:
-    #             a = Product.get(Product.room_id == row[self._data_provider_options.source_room_id_field]).name
-    #             df.loc[index, self._data_provider_options.product_name_field] = a
-    #         except:
-    #             df.loc[index, self._data_provider_options.product_name_field] = ''
-    #     return df
 
     def transform_file(self, in_file_path, out_file_path):
         import time, math
@@ -64,24 +55,23 @@ class DataTransform:
         index = self._data_provider_options.fields.index(self._data_provider_options.product_name_field) + 1
         df.insert(loc=index, column=self._data_provider_options.product_name_field, value='')
         chunks = list()
-        skip_record = math.ceil(len(df.index) / 1000)
+        divisor = 1
+        for i in range(0, int(len(str(len(df.index)))/2)):
+            divisor *= 10
+        if divisor > 0:
+            skip_record = math.ceil(len(df.index) / divisor)
+        else:
+            skip_record = 1
         start_row = 0
         while True:
             stop_row = start_row + skip_record
-            print(start_row, stop_row)
             df_chunk = df.loc[start_row:stop_row]
             start_row = stop_row + 1
             if not df_chunk.shape[0]:
                 break
             else:
                 chunks.append(transform_row.remote(df_chunk))
-
         b = ray.get(chunks)
-        # for index, chunk_df in df.groupby(np.arange(len(df)) // 1000):
-        #     chunk_df = self.transform_row(chunk_df)
-        #     a = dask.delayed(self.transform_row)(chunk_df)
-        #     chunks.append(a)
-        # b = dask.compute(*chunks)
         new_df = pd.concat(b)
         new_df.to_excel(out_file_path)
         self._log.info(f"Completed Transforming Sales Data file {in_file_path} to {out_file_path} on {time.ctime()}")
