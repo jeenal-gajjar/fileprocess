@@ -18,9 +18,9 @@ default_time_zone='+00:00'
 
 ### Quick Setup ###
  * Create python3.6 virtual environment.
-   virtualenv venv --python=python3.6
+   virtualenv venv --python==python3.6
  * Install packages from requirements.txt.
-   pip install -r requirement.txt
+   pip install -r requirements.txt
  
 #### Initial configuration
 Required Details in configuration File.
