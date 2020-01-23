@@ -85,7 +85,6 @@ def get_applogger_update() -> logging.Logger:
     Return a pre-configured logger object for the application
     :return:
     """
-    print ('----- logger update')
     _logger_update = _create_logger(configManager.get_LOG_FILE(), configManager.get_LOG_NAME(),
                                     configManager.get_LOG_FILE_MAXBYTPE(),
                                     configManager.get_LOG_FILE_NUMOFFILE(),

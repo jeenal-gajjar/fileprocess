@@ -112,9 +112,9 @@ class ConfigManager(ConfigManagerBase, DbConfigManager):
         self.sftp_username = self.config.get('sftp_server', 'sftp_username')
         return self.sftp_username
 
-    def get_sftp_data_private_key(self):
-        self.sftp_data_private_key = self.config.get('sftp_server', 'sftp_data_private_key')
-        return self.sftp_data_private_key
+    def get_sftp_password(self):
+        self.sftp_password = self.config.get('sftp_server', 'sftp_password')
+        return self.sftp_password
 
     def get_remote_data_directory(self):
         self.remote_data_directory = self.config.get('sftp_server', 'remote_data_directory')

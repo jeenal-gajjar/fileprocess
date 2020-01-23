@@ -59,14 +59,16 @@ class DataTransform:
         :param header:
         :return:
         """
-        return set(self._data_provider_options.source_data_fields) == set([s.lower() for s in header.keys()])
+        return set(self._data_provider_options.source_data_fields) == set(header)
 
 
     def transform_file(self, in_file_path, out_file_path):
         try:
             self._log.info(f"[ data_transform -> transform_file ] start Transforming Sales Data file {in_file_path} to {out_file_path} on {time.ctime()}")
             df = pd.read_excel(in_file_path)
-            df.columns = map(str.title, df.columns)
+            if not self._validate_schema(list(map(str.title, df.columns))):
+                    raise ValueError(
+                        f"Data Provider Attributes Sync Out File has invalid header columns {str(list(df.columns))}")
             index = self._data_provider_options.fields.index(self._data_provider_options.product_name_field) + 1
             df.insert(loc=index, column=self._data_provider_options.product_name_field, value='')
             chunks = list()

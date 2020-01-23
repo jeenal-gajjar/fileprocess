@@ -5,11 +5,12 @@
 
 from contextlib import ContextDecorator
 import pysftp
-
+from Common.logging.loggingManager import  get_applogger
+_log = get_applogger()
 
 class SFTPFileManager(ContextDecorator):
 
-    def __init__(self, host, username, private_key, host_key_check=True, remote_path=None):
+    def __init__(self, host, username, Password, remote_path=None):
         """
         Initialize sftp connection.
 
@@ -22,12 +23,9 @@ class SFTPFileManager(ContextDecorator):
         self.remote_path = remote_path
         self.host = host
         self.username = username
-        self.private_key = private_key
+        self.password = Password
         self.connection = None
 
-        self.cnopts = pysftp.CnOpts()
-        if not host_key_check:
-            self.cnopts.hostkeys = None
 
     def __enter__(self):
         return self
@@ -43,10 +41,15 @@ class SFTPFileManager(ContextDecorator):
         :return:
         """
         if not self.connection:
-            self.connection = pysftp.Connection(self.host, username=self.username,
-                                                private_key=self.private_key, cnopts=self.cnopts)
-            if self.remote_path:
-                self.connection.chdir(self.remote_path)
+
+            try:
+                if self.host and self.username and self.password:
+                    self.connection = pysftp.Connection(self.host, username=self.username, password=self.password
+                                                       )
+                    if self.remote_path:
+                        self.connection.chdir(self.remote_path)
+            except Exception as e:
+                _log.error("[ SFTPFileManager -> _make_connection ] " + str(e))
 
     def change_directory(self, path):
         """
@@ -56,7 +59,8 @@ class SFTPFileManager(ContextDecorator):
         :return:
         """
         self._make_connection()
-        self.connection.chdir(path)
+        if self.connection:
+            self.connection.chdir(path)
 
     def create_directory(self, dir_name: str):
         """
@@ -65,7 +69,8 @@ class SFTPFileManager(ContextDecorator):
         """
         self._make_connection()
         try:
-            self.connection.makedirs(dir_name)
+            if  self.connection:
+                self.connection.makedirs(dir_name)
         except FileExistsError:
             pass
 
@@ -78,10 +83,11 @@ class SFTPFileManager(ContextDecorator):
         :return:
         """
         self._make_connection()
-        if remote_path:
-            self.connection.put(filename, remotepath=remote_path)
-        else:
-            self.connection.put(filename)
+        if self.connection:
+            if remote_path:
+                self.connection.put(filename, remotepath=remote_path)
+            else:
+                self.connection.put(filename)
 
     def list_dir(self, remote_dir=None):
         """
@@ -90,10 +96,11 @@ class SFTPFileManager(ContextDecorator):
         :return:
         """
         self._make_connection()
-        if remote_dir:
-            return self.connection.listdir(remote_dir)
-        else:
-            return self.connection.listdir()
+        if self.connection:
+            if remote_dir:
+                return self.connection.listdir(remote_dir)
+            else:
+                return self.connection.listdir()
 
     def download_file(self, filename, destination_file_path):
         """
@@ -104,7 +111,23 @@ class SFTPFileManager(ContextDecorator):
         :return:
         """
         self._make_connection()
-        self.connection.get(filename, destination_file_path)
+        if self.connection:
+            self.connection.get(filename, destination_file_path)
+
+    def move_file(self, filename, destination_file_path):
+        """
+            Move file to remote server. on given remote path.
+           :param filename: file name which send to store.
+           :param remote_path: remote path where to move file, if none default path will use
+           :return:
+        """
+        self._make_connection()
+        if self.connection:
+            if destination_file_path:
+                self.connection.rename(filename, destination_file_path)
+            else:
+                self.connection.rename(filename)
+
 
     def close(self):
         if self.connection:
