@@ -2,7 +2,7 @@ peewee==3.9.6
 mysqlclient==1.4.2
 pysftp==0.2.9
 Click==7.0
-ray==0.8.0
+ray==2.8.1
 pandas==0.24.2
 xlrd==1.2.0
 openpyxl==2.6.4
